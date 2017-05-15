@@ -3,7 +3,7 @@
 
 ------------
 
-**Trafficante** library introduces a very simple and intuitive way to construct a stongly typed server with spring boot and swagger within seconds.
+**Trafficante** library introduces a very simple and intuitive way to construct a strongly typed server with spring boot and swagger within seconds.
 Trafficante requires JDK 1.8 or higher.
 
 ### Latest Release
@@ -19,14 +19,14 @@ To add a dependency on Trafficante Library using Maven, use the following:
 </dependency>
 ```
 
-To add a dependency on JavaRed Library using Gradle, use the following:
+To add a dependency on Trafficante Library using Gradle, use the following:
 ```
 compile 'io.github.avivcarmis:trafficante:1.0.0'
 ```
 
 ### Getting Started
 ------------
-Trafficante library devides the server into different `Endpoints`. Each endpoint is responsible to handle requests with certain HTTP method and path (i.e. `POST /get_users`), and defines strongly typed request and response entities. Let's implement some example endpoint:
+Trafficante library divides the server into different `Endpoints`. Each endpoint is responsible to handle requests with certain HTTP method and path (i.e. `POST /get_users`), and defines strongly typed request and response entities. Let's implement some example endpoint:
 
 ```
 public class GetUserById extends BasicEndpoint<GetUserById.Request, GetUserById.Response, GetUserById.Response> {
@@ -77,7 +77,7 @@ public class GetUserById extends BasicEndpoint<GetUserById.Request, GetUserById.
 }
 ```
 
-So whats going on here? Our endpoint class extends abstract `BasicEndpoint`, declares it's request and response entity to be `Request` and `Response` classes (just ignore the third generic type for the moment). The request and response classes are nestedly defined, but they don't need to be and it's entirely up to your own coding style.
+So what's going on here? Our endpoint class extends abstract `BasicEndpoint`, declares it's request and response entity to be `Request` and `Response` classes (just ignore the third generic type for the moment). The request and response classes are nestedly defined, but they don't need to be and it's entirely up to your own coding style.
 Then it declares the HTTP method it expects and whether or not to log the traffic in the super constructor.
 The path of the endpoint is automatically derived from the class name, so the above endpoint will be registered to handle calls to `GET /getUserById` or `GET /get_user_by_id` or any other custom naming strategy you initially define (more on naming strategies in a moment).
 Then it defines it's business logic, what actually the endpoint class does to process a request and produce a response, using the implemented `handle` method.
@@ -107,7 +107,7 @@ Now our server is up and running.
 ### Let's Dive Deeper
 ------------
 So we've seen the minimal code required to construct a Trafficante server, now let's explore the recommended setting.
-Endpoint classes support response wrapping, to allow client a easy parsing of the response in case of either success and failure, and accross the entire server.
+Endpoint classes support response wrapping, to allow client a easy parsing of the response in case of either success and failure, and across the entire server.
 Let's, for example, consider this JSON structure to be responded for each and every server request:
 ```
 {
@@ -157,7 +157,7 @@ public class APIResponse<T> {
 }
 ```
 
-This is simple, next, we can eaily define a standard abstract endpoint class to be used across the entire server:
+This is simple, next, we can easily define a standard abstract endpoint class to be used across the entire server:
 
 ```
 abstract public class Endpoint<REQ, RES> extends BasicEndpoint<REQ, RES, APIResponse<RES>> {
@@ -181,7 +181,7 @@ abstract public class Endpoint<REQ, RES> extends BasicEndpoint<REQ, RES, APIResp
 
 So as you now can see, the third generic type of the `BasicEndpoint` class expects the type of the response wrapper. Since we previously didn't wrap our response, we just passed the same type twice. In the current case we wire the `APIResponse` class to be generated both on failure and on success of the endpoint.
 
-Lastly, we wan't to be able to control the response of failure that don't get to reach a specific endpoint class, like 404, or 405 HTTP errors for example. To this end, we need to inherit `BasicErrorHandler` class:
+Lastly, we want to be able to control the response of failure that don't get to reach a specific endpoint class, like 404, or 405 HTTP errors for example. To this end, we need to inherit `BasicErrorHandler` class:
 
 ```
 public class ErrorHandler extends BasicErrorHandler<APIResponse<?>> {
@@ -289,7 +289,17 @@ The above may be achieved using `ServerNamingStrategy.SNAKE_CASE` property namin
 
 To use *any* other naming, implement you own `PropertyNamingStrategy`, or preferably, the simpler `PropertyNamingStrategyBase` version.
 
+To set custom name for a specific request or response field, annotate it using:
+```
+@JsonProperty("custom_external_name")
+```
+
+To set custom naming strategy to a request or a response class, annotate it using:
+```
+@JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
+```
+
 Endpoint may be further customized using the following method overrides:
 - `defaultPathProvider` - To be overridden in case path strategy should be changed. This let's you ignore the server naming strategy *and* the class name, and simply return the endpoint path.
 - `defaultInvocationWrapper` - To be overridden in case some operations should be performed before and/or after handling the request. For example, measuring execution time, extra logging, etc...
-- `defaultParamsRequestConditionProvider`, `defaultHeadersRequestConditionProvider`, `defaultConsumesRequestConditionProvider`, `defaultProducesRequestConditionProvider` which may be furthur exmplained [in Spring documentation](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/RequestMappingInfo.html "in Spring documentation").
+- `defaultParamsRequestConditionProvider`, `defaultHeadersRequestConditionProvider`, `defaultConsumesRequestConditionProvider`, `defaultProducesRequestConditionProvider` which may be further explained [in Spring documentation](http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/servlet/mvc/method/RequestMappingInfo.html "in Spring documentation").
