@@ -112,11 +112,11 @@ Let's, for example, consider this JSON structure to be responded for each and ev
 ```json
 {
     "success": true,
-    "result": {/* any response entity */},
+    "result": {},
     "error": null
 }
 ```
-or in case of failure:
+where result may be any response entity, and in case of failure:
 ```json
 {
     "success": false,
