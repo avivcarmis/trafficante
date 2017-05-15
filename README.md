@@ -28,7 +28,7 @@ compile 'io.github.avivcarmis:trafficante:1.0.0'
 ------------
 Trafficante library divides the server into different `Endpoints`. Each endpoint is responsible to handle requests with certain HTTP method and path (i.e. `POST /get_users`), and defines strongly typed request and response entities. Let's implement some example endpoint:
 
-```
+```java
 public class GetUserById extends BasicEndpoint<GetUserById.Request, GetUserById.Response, GetUserById.Response> {
 
     public GetUserById() {
@@ -86,17 +86,17 @@ And let's also ignore those `wrapResponse` and `wrapFailure` for the moment.
 That's it! We have our first endpoint ready!
 Now we need to create a main class and start a new Trafficante server:
 
-```
+```java
 public class Main {
 
     public static void main(String[] args) {
         Server.start(
-            "com.example",                                      // base package name containing all my endpoint classes
+            "com.example",                      // base package name containing all my endpoint classes
             ServerNamingStrategy.SNAKE_CASE,    // property naming strategy to be used server-wide
-            "0.0.0.0",                                                 // host name to be registered - "0.0.0.0" to allow all
-            8080,                                                       // port to be used
-            true,                                                        // whether or not to enable swagger - should typically be `false` in production environments
-            args                                                         // program arguments
+            "0.0.0.0",                          // host name to be registered - "0.0.0.0" to allow all
+            8080,                               // port to be used
+            true,                               // whether or not to enable swagger - should typically be `false` in production environments
+            args                                // program arguments
         );
     }
 
@@ -131,7 +131,7 @@ To achieve this we need to follow a few simple steps:
 
 So first, let's declare our wrapping entity. The Java version of the JSON above can be achieved using:
 
-```
+```java
 public class APIResponse<T> {
 
     private final boolean success;
@@ -159,7 +159,7 @@ public class APIResponse<T> {
 
 This is simple, next, we can easily define a standard abstract endpoint class to be used across the entire server:
 
-```
+```java
 abstract public class Endpoint<REQ, RES> extends BasicEndpoint<REQ, RES, APIResponse<RES>> {
 
     public Endpoint(RequestMethod httpMethod, boolean enableFlowLogging) {
@@ -183,7 +183,7 @@ So as you now can see, the third generic type of the `BasicEndpoint` class expec
 
 Lastly, we want to be able to control the response of failure that don't get to reach a specific endpoint class, like 404, or 405 HTTP errors for example. To this end, we need to inherit `BasicErrorHandler` class:
 
-```
+```java
 public class ErrorHandler extends BasicErrorHandler<APIResponse<?>> {
 
     @Override
@@ -196,7 +196,7 @@ public class ErrorHandler extends BasicErrorHandler<APIResponse<?>> {
 
 Now let's get back to our original endpoint example, and re-implement it using our newly create `Endpoint` class:
 
-```
+```java
 public class GetUserById extends Endpoint<GetUserById.Request, GetUserById.Response> {
 
     public GetUserById() {
@@ -252,7 +252,7 @@ In the above case we did not specify any validation and so any request will be v
 2. Any additional validation is defined using the `Validatable` interface.
 Let's, for example, consider a valid request object to specify a `userId` with a positive sign integer. Then our `Request` class should be altered this way:
 
-```
+```java
     public static class Request implements Validatable {
 
         @Required
@@ -290,12 +290,12 @@ The above may be achieved using `ServerNamingStrategy.SNAKE_CASE` property namin
 To use *any* other naming, implement you own `PropertyNamingStrategy`, or preferably, the simpler `PropertyNamingStrategyBase` version.
 
 To set custom name for a specific request or response field, annotate it using:
-```
+```java
 @JsonProperty("custom_external_name")
 ```
 
 To set custom naming strategy to a request or a response class, annotate it using:
-```
+```java
 @JsonNaming(PropertyNamingStrategy.KebabCaseStrategy.class)
 ```
 
