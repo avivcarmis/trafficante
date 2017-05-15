@@ -11,7 +11,7 @@ Trafficante requires JDK 1.8 or higher.
 The most recent release is Trafficante 1.0.0, released May 15, 2017.
 
 To add a dependency on Trafficante Library using Maven, use the following:
-```
+```xml
 <dependency>
     <groupId>io.github.avivcarmis</groupId>
     <artifactId>trafficante</artifactId>
@@ -20,7 +20,7 @@ To add a dependency on Trafficante Library using Maven, use the following:
 ```
 
 To add a dependency on Trafficante Library using Gradle, use the following:
-```
+```groovy
 compile 'io.github.avivcarmis:trafficante:1.0.0'
 ```
 
@@ -109,7 +109,7 @@ Now our server is up and running.
 So we've seen the minimal code required to construct a Trafficante server, now let's explore the recommended setting.
 Endpoint classes support response wrapping, to allow client a easy parsing of the response in case of either success and failure, and across the entire server.
 Let's, for example, consider this JSON structure to be responded for each and every server request:
-```
+```json
 {
     "success": true,
     "result": {/* any response entity */},
@@ -117,7 +117,7 @@ Let's, for example, consider this JSON structure to be responded for each and ev
 }
 ```
 or in case of failure:
-```
+```json
 {
     "success": false,
     "result": null,
@@ -270,7 +270,7 @@ Let's, for example, consider a valid request object to specify a `userId` with a
 
 The term `Naming` in the context of Trafficante refers to two concepts - method of mapping an endpoint class to path, and the naming of properties in the request and the response.
 By default, a server-wide naming strategy is picked up, and then all the magic happens. For the above example using snake case naming convention - a valid request may be `GET /get_user_by_id?user_id=1`, and it's response may be:
-```
+```json
 {
     "success": true,
     "result": {
