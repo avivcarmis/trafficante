@@ -98,7 +98,9 @@ public class QueryStringOperationParameterReader extends OperationParameterReade
         DeserializationConfig config = objectMapper.getDeserializationConfig();
         BeanDescription beanDescription = config.introspect(type);
         for (BeanPropertyDefinition definition : beanDescription.findProperties()) {
-            result.put(definition.getField().getAnnotated(), definition.getName());
+            if (definition != null && definition.getField() != null) {
+                result.put(definition.getField().getAnnotated(), definition.getName());
+            }
         }
         return result;
     }

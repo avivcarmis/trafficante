@@ -2,6 +2,7 @@ package io.github.avivcarmis.trafficante.adapters.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.DelegatingWebMvcConfiguration;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
@@ -22,6 +23,14 @@ public class RequestMappingRegistration extends DelegatingWebMvcConfiguration {
     @Autowired
     public RequestMappingRegistration(ApplicationContext applicationContext) {
         _applicationContext = applicationContext;
+    }
+
+    // Public
+
+    @Bean
+    @Override
+    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+        return super.requestMappingHandlerMapping();
     }
 
     // Private

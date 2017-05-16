@@ -38,7 +38,8 @@ public class Trafficante {
                              PropertyNamingStrategy namingStrategy,
                              String host,
                              int port,
-                             boolean swaggerEnabled,
+                             boolean enableSwagger,
+                             boolean enableJMX,
                              String[] args) {
         if (SERVER_STARTED.getAndSet(true)) {
             throw new RuntimeException("server already started");
@@ -46,9 +47,10 @@ public class Trafficante {
         System.setProperty(ApplicationLauncher.BASE_PACKAGE_INDICATOR, basePackageName);
         System.setProperty("server.address", host);
         System.setProperty("server.port", String.valueOf(port));
-        System.setProperty("spring.resources.add-mappings", String.valueOf(swaggerEnabled));
-        settings = new Settings(basePackageName, namingStrategy, host, port, swaggerEnabled);
-        ApplicationLauncher.launch(args);
+        System.setProperty("spring.resources.add-mappings", String.valueOf(enableSwagger));
+        System.setProperty("spring.jmx.enabled", String.valueOf(enableJMX));
+        settings = new Settings(basePackageName, namingStrategy, host, port, enableSwagger, enableJMX);
+        ApplicationLauncher.launch(args == null ? new String[0] : args);
     }
 
     /**
@@ -73,16 +75,20 @@ public class Trafficante {
 
         private final boolean swaggerEnabled;
 
+        private final boolean enableJMX;
+
         private Settings(String basePackageName,
                          PropertyNamingStrategy namingStrategy,
                          String host,
                          int port,
-                         boolean swaggerEnabled) {
+                         boolean swaggerEnabled,
+                         boolean enableJMX) {
             this.basePackageName = basePackageName;
             this.namingStrategy = namingStrategy;
             this.host = host;
             this.port = port;
             this.swaggerEnabled = swaggerEnabled;
+            this.enableJMX = enableJMX;
         }
 
         public String getBasePackageName() {
@@ -105,6 +111,10 @@ public class Trafficante {
             return swaggerEnabled;
         }
 
+        public boolean isEnableJMX() {
+            return enableJMX;
+        }
+        
     }
 
 }
