@@ -15,13 +15,13 @@ To add a dependency on Trafficante Library using Maven, use the following:
 <dependency>
     <groupId>io.github.avivcarmis</groupId>
     <artifactId>trafficante</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
 To add a dependency on Trafficante Library using Gradle, use the following:
 ```groovy
-compile 'io.github.avivcarmis:trafficante:1.0.0'
+compile 'io.github.avivcarmis:trafficante:1.0.1'
 ```
 
 ### Getting Started
@@ -96,7 +96,8 @@ public class Main {
             "0.0.0.0",                          // host name to be registered - "0.0.0.0" to allow all
             8080,                               // port to be used
             true,                               // whether or not to enable swagger - should typically be `false` in production environments
-            args                                // program arguments
+            true,                               // whether or not to enable JMX support
+            args                                // program arguments - may be null
         );
     }
 

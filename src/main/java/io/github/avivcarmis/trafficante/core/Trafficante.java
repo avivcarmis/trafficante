@@ -114,7 +114,7 @@ public class Trafficante {
         public boolean isEnableJMX() {
             return enableJMX;
         }
-        
+
     }
 
 }
