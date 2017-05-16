@@ -90,7 +90,7 @@ Now we need to create a main class and start a new Trafficante server:
 public class Main {
 
     public static void main(String[] args) {
-        Server.start(
+        Trafficante.start(
             "com.example",                      // base package name containing all my endpoint classes
             ServerNamingStrategy.SNAKE_CASE,    // property naming strategy to be used server-wide
             "0.0.0.0",                          // host name to be registered - "0.0.0.0" to allow all
