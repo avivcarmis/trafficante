@@ -36,17 +36,17 @@ public class QueryStringOperationParameterReader extends OperationParameterReade
 
     // Fields
 
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper _objectMapper;
 
-    private final TypeResolver typeResolver;
+    private final TypeResolver _typeResolver;
 
     // Constructors
 
     @Autowired
     public QueryStringOperationParameterReader(ModelAttributeParameterExpander expander, ObjectMapper objectMapper) {
         super(expander);
-        this.objectMapper = objectMapper;
-        this.typeResolver = new TypeResolver();
+        this._objectMapper = objectMapper;
+        this._typeResolver = new TypeResolver();
     }
 
     // Public
@@ -83,7 +83,7 @@ public class QueryStringOperationParameterReader extends OperationParameterReade
                                     Map.class.isAssignableFrom(field.getType())
                             )
                     )
-                    .type(typeResolver.resolve(field.getType()))
+                    .type(_typeResolver.resolve(field.getType()))
                     .parameterType("query")
                     .hidden(false)
                     .build();
@@ -95,7 +95,7 @@ public class QueryStringOperationParameterReader extends OperationParameterReade
     private Map<Field, String> mapFields(Class<?> aClass) {
         Map<Field, String> result = new HashMap<>();
         JavaType type = TypeFactory.defaultInstance().constructType(aClass);
-        DeserializationConfig config = objectMapper.getDeserializationConfig();
+        DeserializationConfig config = _objectMapper.getDeserializationConfig();
         BeanDescription beanDescription = config.introspect(type);
         for (BeanPropertyDefinition definition : beanDescription.findProperties()) {
             if (definition != null && definition.getField() != null) {

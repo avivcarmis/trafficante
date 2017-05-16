@@ -28,7 +28,7 @@ public class CautiousTypeNameExtractor extends TypeNameExtractor {
 
     // Fields
 
-    private final TypeResolver typeResolver;
+    private final TypeResolver _typeResolver;
 
     // Constructors
 
@@ -37,14 +37,14 @@ public class CautiousTypeNameExtractor extends TypeNameExtractor {
                                      @Qualifier("typeNameProviderPluginRegistry")
                                      PluginRegistry<TypeNameProviderPlugin, DocumentationType> typeNameProviders) {
         super(typeResolver, typeNameProviders);
-        this.typeResolver = typeResolver;
+        this._typeResolver = typeResolver;
     }
 
     // Public
 
     @Override
     public String typeName(ModelContext context) {
-        ResolvedType type = typeResolver.resolve(context.getType());
+        ResolvedType type = _typeResolver.resolve(context.getType());
         return shouldIgnore(type) ? super.typeName(context) : CautiousApiModelReader.getModelName(type);
     }
 

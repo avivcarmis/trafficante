@@ -24,7 +24,7 @@ public class QueryStringDocumentationPluginsManager extends DocumentationPlugins
 
     // Fields
 
-    private final PluginRegistry<OperationBuilderPlugin, DocumentationType> operationBuilderPlugins;
+    private final PluginRegistry<OperationBuilderPlugin, DocumentationType> _operationBuilderPlugins;
 
     // Constructors
 
@@ -32,14 +32,14 @@ public class QueryStringDocumentationPluginsManager extends DocumentationPlugins
                                                   @Qualifier("operationBuilderPluginRegistry")
                                                           PluginRegistry<OperationBuilderPlugin, DocumentationType>
                                                           operationBuilderPlugins) {
-        this.operationBuilderPlugins = operationBuilderPlugins;
+        this._operationBuilderPlugins = operationBuilderPlugins;
     }
 
     // Public
 
     @Override
     public Operation operation(OperationContext operationContext) {
-        List<OperationBuilderPlugin> allPlugins = operationBuilderPlugins
+        List<OperationBuilderPlugin> allPlugins = _operationBuilderPlugins
                 .getPluginsFor(operationContext.getDocumentationType());
         for (OperationBuilderPlugin each : allPlugins) {
             if (each.getClass() == OperationParameterReader.class) {

@@ -44,11 +44,11 @@ public class CautiousApiModelReader extends ApiModelReader {
 
     // Fields
 
-    private final ModelProvider modelProvider;
+    private final ModelProvider _modelProvider;
 
-    private final TypeResolver typeResolver;
+    private final TypeResolver _typeResolver;
 
-    private final DocumentationPluginsManager pluginsManager;
+    private final DocumentationPluginsManager _pluginsManager;
 
     // Constructors
 
@@ -57,9 +57,9 @@ public class CautiousApiModelReader extends ApiModelReader {
                                   TypeResolver typeResolver,
                                   DocumentationPluginsManager pluginsManager) {
         super(modelProvider, typeResolver, pluginsManager);
-        this.modelProvider = modelProvider;
-        this.typeResolver = typeResolver;
-        this.pluginsManager = pluginsManager;
+        this._modelProvider = modelProvider;
+        this._typeResolver = typeResolver;
+        this._pluginsManager = pluginsManager;
     }
 
     // Public
@@ -67,11 +67,11 @@ public class CautiousApiModelReader extends ApiModelReader {
     @Override
     public Map<String, Model> read(RequestMappingContext context) {
         Set<Class> ignorableTypes = newHashSet(context.getIgnorableParameterTypes());
-        Set<ModelContext> modelContexts = pluginsManager.modelContexts(context);
+        Set<ModelContext> modelContexts = _pluginsManager.modelContexts(context);
         Map<String, Model> modelMap = newHashMap(context.getModelMap());
         for (ModelContext each : modelContexts) {
-            markIgnorablesAsHasSeen(typeResolver, ignorableTypes, each);
-            Optional<Model> pModel = modelProvider.modelFor(each);
+            markIgnorablesAsHasSeen(_typeResolver, ignorableTypes, each);
+            Optional<Model> pModel = _modelProvider.modelFor(each);
             if (pModel.isPresent()) {
                 LOG.debug("Generated parameter model id: {}, name: {}, schema: {} models",
                         pModel.get().getId(),
@@ -101,7 +101,7 @@ public class CautiousApiModelReader extends ApiModelReader {
     }
 
     private void populateDependencies(ModelContext modelContext, Map<String, Model> modelMap) {
-        Map<String, Model> dependencies = modelProvider.dependencies(modelContext);
+        Map<String, Model> dependencies = _modelProvider.dependencies(modelContext);
         for (Model each : dependencies.values()) {
             mergeModelMap(modelMap, each, each.getType());
         }

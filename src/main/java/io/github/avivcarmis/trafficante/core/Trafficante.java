@@ -13,7 +13,7 @@ public class Trafficante {
     // Constants
 
     /**
-     * Synchronizes a call to {@link #start(String, PropertyNamingStrategy, String, int, boolean, String[])},
+     * Synchronizes a call to {@link #start(String, PropertyNamingStrategy, String, int, boolean, boolean, String[])},
      * to validate no multiple servers started
      */
     private static final AtomicBoolean SERVER_STARTED = new AtomicBoolean(false);
@@ -31,8 +31,9 @@ public class Trafficante {
      * @param namingStrategy  a naming strategy to be used for endpoint paths and IO serialization
      * @param host            the host to register the server with ("0.0.0.0" to enable all)
      * @param port            the port to register the server with
-     * @param swaggerEnabled  whether or not to enable swagger
-     * @param args            program arguments
+     * @param enableSwagger   whether or not to enable swagger
+     * @param enableJMX       whether or not to enable JMX support
+     * @param args            nullable program arguments
      */
     public static void start(String basePackageName,
                              PropertyNamingStrategy namingStrategy,

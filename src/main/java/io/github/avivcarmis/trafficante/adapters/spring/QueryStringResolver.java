@@ -35,7 +35,7 @@ public class QueryStringResolver implements HandlerMethodArgumentResolver {
 
     private final ObjectMapper _objectMapper;
 
-    private RequestResponseBodyMethodProcessor originalProcessor;
+    private RequestResponseBodyMethodProcessor _originalProcessor;
 
     // Constructors
 
@@ -62,7 +62,7 @@ public class QueryStringResolver implements HandlerMethodArgumentResolver {
         //noinspection unchecked
         BasicEndpoint endpoint = _applicationContext.getBean((Class<? extends BasicEndpoint>) aClass);
         if (HttpMethodContentClass.classify(endpoint.getHttpMethod()) != HttpMethodContentClass.QUERY_STRING) {
-            return originalProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
+            return _originalProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
         }
         Class<?> reqClass = parameter.getParameterType();
         Map<String, String> params = new HashMap<>();
@@ -99,7 +99,7 @@ public class QueryStringResolver implements HandlerMethodArgumentResolver {
     // Private
 
     void setOriginalProcessor(RequestResponseBodyMethodProcessor originalProcessor) {
-        this.originalProcessor = originalProcessor;
+        this._originalProcessor = originalProcessor;
     }
 
 }

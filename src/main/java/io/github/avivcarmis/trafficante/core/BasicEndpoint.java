@@ -64,7 +64,7 @@ abstract public class BasicEndpoint<REQ, RES, RES_WRAPPER> {
     private final boolean _enableFlowLogging;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private ObjectMapper _objectMapper;
 
     // Constructors
 
@@ -87,7 +87,7 @@ abstract public class BasicEndpoint<REQ, RES, RES_WRAPPER> {
             responseStatusCode(HttpStatus.OK);
             RESPONSE_HEADERS_THREAD_LOCAL.set(new LinkedMultiValueMap<>());
             SERVLET_REQUEST_THREAD_LOCAL.set(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest());
-            validateObject(objectMapper.getPropertyNamingStrategy(), request);
+            validateObject(_objectMapper.getPropertyNamingStrategy(), request);
             if (request instanceof Validatable) {
                 ((Validatable) request).validate();
             }
@@ -165,12 +165,12 @@ abstract public class BasicEndpoint<REQ, RES, RES_WRAPPER> {
     // Private
 
     private void logEnter(REQ request) {
-        logMessage("Entering " + _apiPath + " with " + objectMapper.valueToTree(request));
+        logMessage("Entering " + _apiPath + " with " + _objectMapper.valueToTree(request));
     }
 
     private void logExit(ResponseEntity<RES_WRAPPER> response) {
         logMessage("Exiting " + _apiPath + " with status " + response.getStatusCode() + " and body " +
-                objectMapper.valueToTree(response.getBody()).toString());
+                _objectMapper.valueToTree(response.getBody()).toString());
     }
 
     private void logMessage(String message) {
