@@ -60,7 +60,7 @@ public class EndpointRequestMappingHandlerMapping extends RequestMappingHandlerM
             return null;
         }
         //noinspection unchecked
-        BasicEndpoint instance = _applicationContext.getAutowireCapableBeanFactory().createBean((Class<BasicEndpoint>) handlerType);
+        BasicEndpoint instance = _applicationContext.getBean((Class<BasicEndpoint>) handlerType);
         String path = instance.defaultPathProvider();
         return new RequestMappingInfo(
                 null,
