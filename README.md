@@ -15,13 +15,13 @@ To add a dependency on Trafficante Library using Maven, use the following:
 <dependency>
     <groupId>io.github.avivcarmis</groupId>
     <artifactId>trafficante</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 </dependency>
 ```
 
 To add a dependency on Trafficante Library using Gradle, use the following:
 ```groovy
-compile 'io.github.avivcarmis:trafficante:1.0.1'
+compile 'io.github.avivcarmis:trafficante:1.0.2'
 ```
 
 ### Getting Started
