@@ -8,7 +8,7 @@ Trafficante requires JDK 1.8 or higher.
 
 ### Latest Release
 ------------
-The most recent release is Trafficante 1.0.0, released May 15, 2017.
+The most recent release is Trafficante 1.0.2, released May, 2017.
 
 To add a dependency on Trafficante Library using Maven, use the following:
 ```xml
